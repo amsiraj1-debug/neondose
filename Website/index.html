@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#151018"><title>NEONDOSE 2 — Vocal Style Lab</title>
+<link rel="stylesheet" href="styles.css"></head>
+<body>
+<div class="page">
+<header class="masthead"><div><div class="eyebrow">NEON AUDIO / VOCAL PROCESSING</div><div class="wordmark">NEON<span>DOSE</span><sup>2.0</sup></div></div><div class="mast-actions"><span class="live-dot" id="engineDot"></span><span id="engineLabel">ENGINE OFFLINE</span><span class="version">WEB STUDIO · LOCAL AUDIO</span></div></header>
+<main>
+<section class="machine" aria-label="Vocal effect machine"><div class="machine-top"><div class="lcd">
+<div class="lcd-top"><span>● SYSTEM / VOICE ENGINE</span><span id="lcdClock">DSP READY</span><span>VER 2.0</span></div>
+<div class="lcd-center"><p class="lcd-above">THE VOCAL RECIPE LAB</p><h1>neon<span>dose</span></h1><p class="lcd-small" id="lcdStyle">SOFT EMO RAP / BEDROOM</p><p class="lcd-description" id="lcdDetail">Gentle saturation • intimate tone • subtle ambience</p></div>
+<div class="lcd-bottom"><span id="lcdInput">INPUT: NONE</span><span id="lcdPrompt">PROMPT ENGINE / READY</span><span id="lcdOutput">SAFE MASTER / ON</span></div></div></div>
+<div class="machine-controls"><div class="machine-strip"><span>✦ VOICE SHAPER</span><span>INPUT SAFE • GAIN COMPENSATED</span><span>◉ MASTER OUT</span></div><div class="knobs" id="controls"></div><div class="machine-foot"><span>NEONDOSE / ORIGINAL DIGITAL EFFECTS</span><div class="meter-track" title="Output level"><div id="level"></div></div><span id="peakLabel">-∞ dBFS</span></div></div></section>
+<div class="studio-grid">
+<section class="pane library"><div class="pane-top"><div><p class="overline">01 / EXPLORE</p><h2>Vocal style library <span class="counter" id="libraryCount"></span></h2></div><button class="ghost tiny" id="favoritesOnly" aria-pressed="false">☆ Favorites</button></div>
+<div class="search-row"><label class="sr-only" for="search">Search style library</label><input id="search" type="search" placeholder="Search genres, moods, influences…" autocomplete="off"></div>
+<div class="filters" id="filters"></div><div class="style-grid" id="voices" role="list"></div><div class="library-foot"><span id="libraryHint">Select a recipe to hear its effects.</span><span id="resultCount"></span></div></section>
+<div class="right-stack">
+<section class="pane composer"><p class="overline">02 / DESCRIBE YOUR SOUND</p><h2>Prompt-to-style composer</h2><p class="subheading">Describe the *production* you want in ordinary language. Combine genres, moods, references, and specific mix instructions.</p>
+<label class="sr-only" for="prompt">Custom vocal style prompt</label><textarea id="prompt" placeholder="Make a soft, sad emo-rap vocal with intimate bedroom warmth, a little airy top end, gentle saturation, and a short delay. Less distortion, no harsh highs — like a lo-fi diary recording."></textarea>
+<div class="prompt-chips" id="examples"><button data-example="Make an intimate, sad emo rap vocal like Powfu: warm bedroom tone, soft saturation, quiet and emotional, subtle short delay. No harsh drive.">Powfu-style emo rap</button><button data-example="Classic soaring heavy metal singer production: powerful upfront mids, bright clear presence, mild grit, little ambience, no muddy bass.">Classic heavy metal</button><button data-example="Dreamy psychedelic trap vocal with hazy space, dark warmth, wide echo, lush ambience, smooth tasteful saturation.">Psychedelic trap</button><button data-example="Make an airy underground cloud-rap recording, whispery and close, with washed-out room ambience but low distortion.">Underground cloud</button></div>
+<div class="composer-actions"><button class="primary" id="apply">✦ Build my vocal style</button><button class="ghost" id="random">Surprise me</button><button class="ghost" id="reset">Reset</button></div>
+<div class="insight" id="promptResult" role="status"><strong>Describe your vocal sound.</strong><span>I'll select a fitting recipe and translate your instructions into a mix of effect settings, including requests such as “less drive” and “more space”.</span></div>
+<div class="variations" id="variations" hidden><div class="variations-title">Try another interpretation</div><div class="variant-list" id="variantList"></div></div>
+<p class="disclaimer">The prompt engine understands style combinations and effect instructions offline; it is not a neural singer generator. It does not imitate or clone a specific person's voice. True AI conversion and autotune need additional models/DSP.</p></section>
+<section class="pane playback"><p class="overline">03 / TEST YOUR SOUND</p><h2>Live vocal engine</h2><div class="source-card"><label for="file">Choose a vocal file <span>WAV · MP3 · supported audio</span></label><input id="file" type="file" accept="audio/*"></div>
+<audio id="player" controls preload="metadata"></audio><div class="transport"><button class="primary" id="start">Enable audio</button><button class="ghost" id="mic">🎙 Mic live</button><button class="ghost" id="stop">Stop</button><button class="ghost" id="export">↓ Export WAV</button></div>
+<div class="indicators"><div><span class="signal" id="inputSignal"></span><span id="inputLabel">NO INPUT</span></div><div>PEAK SAFETY <span class="on-text">ACTIVE</span></div><div id="outputInfo">OUTPUT -3 dB</div></div>
+<p class="message" id="message" role="status">Load audio or enable your microphone to hear real-time processing. Use headphones with the microphone to prevent feedback.</p>
+<p class="disclaimer">File playback and microphone effects are processed in your browser. Export renders the same effects offline. Microphone access requires HTTPS or localhost. Pitch correction and AI voice identity conversion are not included.</p></section>
+</div></div>
+<footer class="footer">NEONDOSE 2 · PROTOTYPE AUDIO DSP · LOCAL FIRST <span>Designed for future JUCE / VST3 integration</span></footer>
+</main></div><script src="studio.js"></script></body></html>
