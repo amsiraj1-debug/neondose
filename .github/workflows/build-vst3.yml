@@ -1,0 +1,63 @@
+name: Build NEONDOSE Windows VST3
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main, master ]
+    paths:
+      - 'Source/**'
+      - 'CMakeLists.txt'
+      - '.github/workflows/build-vst3.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  build-windows-vst3:
+    name: Windows x64 VST3
+    runs-on: windows-2022
+    timeout-minutes: 50
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Show build environment
+        shell: pwsh
+        run: |
+          cmake --version
+          Write-Host "Using GitHub-hosted VS 2022 toolchain"
+
+      - name: Configure JUCE and Visual Studio 2022
+        shell: pwsh
+        run: |
+          cmake -S . -B build -G "Visual Studio 17 2022" -A x64 -DCMAKE_POLICY_DEFAULT_CMP0091=NEW
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+      - name: Compile VST3 (Release)
+        shell: pwsh
+        run: |
+          cmake --build build --config Release --target NeonDose_VST3 --parallel 2
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+      - name: Package .vst3 bundle as ZIP
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path dist | Out-Null
+          $bundles = @(Get-ChildItem -Path build -Recurse -Force -Directory -Filter '*.vst3' | Where-Object { $_.FullName -match 'artefacts' })
+          if ($bundles.Count -ne 1) {
+            Write-Host 'All discovered VST3 outputs:'
+            Get-ChildItem -Path build -Recurse -Filter '*.vst3' | Select-Object FullName | Format-Table
+            throw "Expected one built VST3 directory; found $($bundles.Count)."
+          }
+          Copy-Item -LiteralPath $bundles[0].FullName -Destination 'dist/NEONDOSE.vst3' -Recurse -Force
+          Compress-Archive -Path 'dist/NEONDOSE.vst3' -DestinationPath 'dist/NEONDOSE-Windows-x64-VST3.zip' -Force
+          Write-Host "Packaged: dist/NEONDOSE-Windows-x64-VST3.zip"
+
+      - name: Upload downloadable plugin
+        uses: actions/upload-artifact@v4
+        with:
+          name: NEONDOSE-Windows-x64-VST3
+          path: dist/NEONDOSE-Windows-x64-VST3.zip
+          if-no-files-found: error
+          retention-days: 30
